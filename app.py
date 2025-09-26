@@ -5,7 +5,8 @@ app = Flask(__name__)
 
 # Load the smaller, faster model
 # summarizer = pipeline("summarization", model="ssleifer/distilbart-cnn-12-6")
-summarizer = pipeline("summarization", model="t5-small")
+# summarizer = pipeline("summarization", model="t5-small")
+summarizer = pipeline("summarization", model="ssleifer/distilbart-cnn-6-6")
 
 # --- NEW ---: More advanced validation constants
 MIN_WORDS_FOR_SUMMARY = 10
