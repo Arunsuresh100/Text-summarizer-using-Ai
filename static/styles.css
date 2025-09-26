@@ -10,6 +10,11 @@
     --border-color: #333;
 }
 
+/* --- FIX: Universal box-sizing for more predictable layouts --- */
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-dark);
@@ -50,7 +55,6 @@ body {
     top: 0;
     width: 100%;
     z-index: 1000;
-    box-sizing: border-box;
 }
 
 .navbar-container {
@@ -119,10 +123,11 @@ textarea {
     background-color: var(--secondary-surface);
     color: var(--text-primary);
     resize: vertical;
-    box-sizing: border-box;
     font-family: 'Inter', sans-serif;
     text-align: justify;
     hyphens: auto;
+    /* --- FIX: Prevents long unbroken strings from overflowing --- */
+    overflow-wrap: break-word;
 }
 
 textarea:focus {
@@ -189,6 +194,8 @@ textarea:focus {
     text-align: justify;
     white-space: pre-wrap;
     hyphens: auto;
+    /* --- FIX: Prevents long unbroken strings from overflowing --- */
+    overflow-wrap: break-word;
 }
 
 #copy-btn {
@@ -252,23 +259,20 @@ textarea:focus {
 
 /* --- Responsive Design for Mobile --- */
 @media (max-width: 600px) {
-    body {
-        padding-top: 60px;
-    }
-
     .container {
         width: 100%;
         max-width: 100%;
         margin: 0;
-        padding: 2rem 1.5rem;
+        /* --- FIX: Reduced horizontal padding for more space on small screens --- */
+        padding: 2rem 1rem; 
         border-radius: 0;
         border: none;
         box-shadow: none;
-        flex-grow: 1; /* Make container fill space on mobile */
+        flex-grow: 1;
     }
 
     .navbar {
-        padding: 0 1.5rem;
+        padding: 0 1rem;
     }
 
     .navbar-brand {
@@ -276,7 +280,8 @@ textarea:focus {
     }
     
     header h1 {
-        font-size: 1.75rem;
+        /* --- FIX: Slightly reduced font size for smaller screens --- */
+        font-size: 1.9rem;
     }
 
     .button-group {
@@ -284,10 +289,11 @@ textarea:focus {
     }
     
     .length-btn {
+        /* --- FIX: Explicitly set font-size to 16px to prevent iOS zoom on focus --- */
         font-size: 16px;
     }
     
     footer {
-        padding: 1.5rem;
+        padding: 1.5rem 1rem;
     }
 }
