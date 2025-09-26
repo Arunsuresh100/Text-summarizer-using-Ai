@@ -5,7 +5,8 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 # --- NEW: API Configuration ---
-API_URL = "https://api-inference.huggingface.co/models/t5-small"
+# API_URL = "https://api-inference.huggingface.co/models/t5-small"
+API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
 # Get the API token from the environment variables we set in Render
 HF_API_TOKEN = os.getenv("HF_API_TOKEN")
 
