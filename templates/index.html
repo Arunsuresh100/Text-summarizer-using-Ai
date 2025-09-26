@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeus AI Summarizer</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+    <!-- Link to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <!-- Link to our stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Feather Icons for the copy button -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="/">Zeus AI</a>
+        </div>
+    </nav>
+
+    <!-- Main wrapper for all content below the navbar -->
+    <div class="main-wrapper">
+        <div class="container">
+            <header>
+                <h1>AI Text Summarizer</h1>
+                <p>Paste your text below to get a concise summary instantly.</p>
+            </header>
+
+            <main>
+                <form method="post" id="summarizer-form">
+                    <div class="form-group">
+                        <label for="text_to_summarize">Your Text</label>
+                        <textarea name="text_to_summarize" id="text_to_summarize" rows="12" placeholder="Start typing here...">{{ original_text }}</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Summary Length</label>
+                        <div class="button-group">
+                            <button type="submit" name="summary_length" value="short" class="length-btn {% if selected_length == 'short' %}active{% endif %}">Short</button>
+                            <button type="submit" name="summary_length" value="medium" class="length-btn {% if selected_length == 'medium' or not selected_length %}active{% endif %}">Medium</button>
+                            <button type="submit" name="summary_length" value="long" class="length-btn {% if selected_length == 'long' %}active{% endif %}">Long</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div id="loading-indicator" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Summarizing...</p>
+                </div>
+
+                {% if error_message %}
+                <div class="error-message">
+                    <p>{{ error_message }}</p>
+                </div>
+                {% endif %}
+
+                {% if summary %}
+                <div class="summary-section">
+                    <div class="summary-header">
+                        <h2>Summary</h2>
+                        <button id="copy-btn" title="Copy to clipboard">
+                            <i data-feather="copy"></i>
+                            <span id="copy-feedback">Copy</span>
+                        </button>
+                    </div>
+                    <p id="summary-text">{{ summary }}</p>
+                </div>
+                {% endif %}
+            </main>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Zeus AI. All Rights Reserved.</p>
+        </footer>
+    </div> <!-- End of main-wrapper -->
+
+    <script>
+        document.getElementById('summarizer-form').addEventListener('submit', function() {
+            const summarySection = document.querySelector('.summary-section');
+            if (summarySection) {
+                summarySection.style.display = 'none';
+            }
+            const errorMessage = document.querySelector('.error-message');
+            if (errorMessage) {
+                errorMessage.style.display = 'none';
+            }
+            document.getElementById('loading-indicator').style.display = 'flex';
+        });
+
+        const copyBtn = document.getElementById('copy-btn');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', function() {
+                const summaryText = document.getElementById('summary-text').innerText;
+                navigator.clipboard.writeText(summaryText).then(() => {
+                    const feedbackSpan = document.getElementById('copy-feedback');
+                    feedbackSpan.innerText = 'Copied!';
+                    setTimeout(() => {
+                        feedbackSpan.innerText = 'Copy';
+                    }, 2000);
+                });
+            });
+        }
+        feather.replace();
+    </script>
+</body>
+</html>
